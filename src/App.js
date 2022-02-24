@@ -1,12 +1,13 @@
 import React from 'react'
 import { Switch, Route, Link } from 'react-router-dom';
 import { layout, Typography, Space } from 'antd';
+import { Navbar } from './components';
 
 const App = () => {
   return (
     <div>
         <div className="app">
-            
+
         </div>
         <div className="navbar">
             
