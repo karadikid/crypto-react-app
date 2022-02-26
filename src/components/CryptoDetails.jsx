@@ -96,17 +96,19 @@ const CryptoDetails = () => {
       icon: <ExclamationCircleOutlined />,
     },
   ];
+  if (isFetching) return "Loading...";
 
   return (
     <Col className="coin-details-container">
       <Col className="coin-heading-container">
         <Title level={2} className="coin-name">
-          {data?.data?.coin.name} ({data?.data?.coin.symbol}) Price
+          {cryptoDetails.name} ({cryptoDetails.symbol}) Price
         </Title>
         <p>
-          {data?.data?.coin.name} live price in US Dollars($). View value,
+          {cryptoDetails.name} live price in US Dollars($). View value,
           statistics, market cap, and supply.
         </p>
+        ``
       </Col>
       <Select
         defaultValue="7d"
@@ -155,7 +157,29 @@ const CryptoDetails = () => {
           ))}
         </Col>
       </Col>
-      
+      <Col className="coin-desc-link">
+        <Row className="coin-desc">
+          <Title level={3} className="coin-details-heading">
+            What is {cryptoDetails.name}?
+          </Title>
+          {HTMLReactParser(cryptoDetails.description)}
+        </Row>
+        <Col className="coin-links">
+          <Title level={3} className="coin-details-heading">
+            {cryptoDetails.name} Links
+          </Title>
+          {cryptoDetails.links?.map((link) => (
+            <Row className="coin-link" key={link.name}>
+              <Title level={5} className="link-name">
+                {link.type}
+              </Title>
+              <a href={link.url} target="_blank" rel="noreferrer">
+                {link.name}
+              </a>
+            </Row>
+          ))}
+        </Col>
+      </Col>
     </Col>
   );
 };
