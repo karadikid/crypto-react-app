@@ -14,7 +14,9 @@ import {
   NumberOutlined,
   ThunderboltOutlined,
 } from "@ant-design/icons";
-import { useGetCryptoDetailsQuery } from "../services/cryptoApi";
+import { useGetCryptoDetailsQuery, useGetCryptoHistoryQuery } from "../services/cryptoApi";
+import LineChart  from "./LineChart";
+
 
 const { Title, Text } = Typography;
 const { Option } = Select;
@@ -23,6 +25,7 @@ const CryptoDetails = () => {
   const { coinId } = useParams();
   const { timePeriod, setTimePeriod } = useState("7d");
   const { data, isFetching } = useGetCryptoDetailsQuery(coinId);
+  const { data: coinHistory } = useGetCryptoHistoryQuery(coinId, timePeriod);
   const cryptoDetails = data?.data?.coin;
   const hVolume = data?.data?.coin["24hVolume"];
 
@@ -120,14 +123,14 @@ const CryptoDetails = () => {
           <Option key={date}>{date}</Option>
         ))}
       </Select>
-      {/* { line chart toDo } */}
+      <LineChart coinHistory={coinHistory} currentPrice={millify(cryptoDetails.price)} coinName={(cryptoDetails.name)}/>
       <Col className="stats-container">
         <Col className="coin-value-statistics">
           <Col className="coin-value-statistics-heading">
             <Title level={3} className="coin-details-heading">
-              {data?.data?.coin.name} Value Statistics
+              {cryptoDetails.name} Value Statistics
             </Title>
-            <p>An overview showing the stats of {data?.data?.coin.name}</p>
+            <p>An overview showing the stats of {cryptoDetails.name}</p>
           </Col>
           {stats.map(({ icon, title, value }) => (
             <Col className="coin-stats">
